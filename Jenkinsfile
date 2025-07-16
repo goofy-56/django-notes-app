@@ -11,15 +11,20 @@ pipeline {
                 sh "docker build . -t note-app-test-new"
             }
         }
-        stage("Push to Docker Hub"){
-            steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag note-app-test-new ${env.dockerHubUser}/note-app-test-new:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubUser}"
-                sh "docker push ${env.dockerHubUser}/note-app-test-new:latest"
-                }
-            }
+        stage("Push to Docker Hub") {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: "dockerHub", 
+            passwordVariable: "dockerHubPass", 
+            usernameVariable: "dockerHubUser"
+        )]) {
+            sh "docker tag note-app-test-new ${dockerHubUser}/note-app-test-new:latest"
+            sh "echo ${dockerHubPass} | docker login -u ${dockerHubUser} --password-stdin"
+            sh "docker push ${dockerHubUser}/note-app-test-new:latest"
         }
+    }
+}
+
         stage("Deploy"){
             steps{
                 sh "docker-compose down && docker-compose up -d"
