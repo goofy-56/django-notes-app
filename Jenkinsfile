@@ -3,7 +3,7 @@ pipeline {
     stages{
         stage("Clone Code"){
             steps{
-                git url: "https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+                git url: "https://github.com/goofy-56/django-notes-app.git", branch: "dev"
             }
         }
         stage("Build and Test"){
@@ -13,10 +13,10 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag note-app-test-new ${env.dockerHubUser}/note-app-test-new:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/note-app-test-new:latest"
+                withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubPass",usernameVariable:"dockerhubUser")]){
+                sh "docker tag note-app-test-new ${env.dockerhubUser}/note-app-test-new:latest"
+                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubUser}"
+                sh "docker push ${env.dockerhubUser}/note-app-test-new:latest"
                 }
             }
         }
