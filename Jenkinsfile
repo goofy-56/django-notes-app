@@ -13,10 +13,10 @@ pipeline {
         }
         stage("Push to Docker Hub"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerhub",passwordVariable:"dockerhubPass",usernameVariable:"dockerhubUser")]){
-                sh "docker tag note-app-test-new ${env.dockerhubUser}/note-app-test-new:latest"
-                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubUser}"
-                sh "docker push ${env.dockerhubUser}/note-app-test-new:latest"
+                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker tag note-app-test-new ${env.dockerHubUser}/note-app-test-new:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubUser}"
+                sh "docker push ${env.dockerHubUser}/note-app-test-new:latest"
                 }
             }
         }
